@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">NOVA Rescue</string>
+    <string-array name="tipos_desastre_array">
+        <item>Sismo</item>
+        <item>Alud de tierra</item>
+        <item>Inundación severa</item>
+        <item>Tsunami </item>
+        <item>Desplazamiento de tierra</item>
+        <item>Terremoto</item>
+        <item>Huracan </item>
+    </string-array>
+    <string-array name="tipos_dano_array">
+        <item>Colapso de Estructura</item>
+        <item>Inundación / Crecida</item>
+        <item>Deslizamiento de Tierra</item>
+        <item>Incendio / Explosión</item>
+        <item>Fuga de Material Peligroso</item>
+        <item>Accidente con Atrapados</item>
+        <item>Otro Evento de Emergencia</item>
+    </string-array>
+</resources>

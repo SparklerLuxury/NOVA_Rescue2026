@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Cabecera -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RESPUESTA RÁPIDA"
+            android:textColor="#6502C7"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reporte Comunitario"
+            android:textColor="#1E293B"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registra daños estructurales críticos. Puedes usar tu ubicación GPS actual."
+            android:textColor="#475569"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Botón GPS y Estado -->
+        <Button
+            android:id="@+id/btnGps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 Usar mi ubicación GPS actual"
+            android:backgroundTint="#F6E0FE"
+            android:textColor="#5E02C7"
+            android:textAllCaps="false"
+            app:strokeColor="#DFBAFD"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/tvUbicacionEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Haz clic en el botón de GPS de arriba."
+            android:textColor="#64748B"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:textAlignment="center"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Tipo de Daño -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIPO DE DAÑO"
+            android:textColor="#334155"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerTipoDano"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="#CB8CFF"
+            android:background="#FFFFFF"
+            android:entries="@array/tipos_dano_array"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Nivel de Gravedad -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NIVEL DE GRAVEDAD"
+            android:textColor="#334155"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/btnBajo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BAJO"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#64748B"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnMedio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="MEDIO"
+                android:backgroundTint="#F59E0B"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnAlto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ALTO"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#64748B"/>
+        </LinearLayout>
+
+        <!-- Descripción y Contador -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DESCRIPCIÓN DE LA EMERGENCIA"
+                android:textColor="#334155"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvContador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="0 / 250"
+                android:textColor="#64748B"
+                android:textSize="12sp"
+                android:fontFamily="monospace" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#FFFFFF"
+            android:textColor="#0F172A"
+            android:textColorHint="#94A3B8"
+            android:hint="Describe la situación (mínimo 10 caracteres)..."
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:maxLength="250"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/tvErrorDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Faltan 10 caracteres para validar el reporte."
+            android:textColor="#EF4444"
+            android:textSize="10sp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Evidencia Fotográfica -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EVIDENCIA FOTOGRÁFICA"
+            android:textColor="#334155"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/btnSubirFoto"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📷 Subir foto del daño"
+                    android:textColor="#64748B"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivPrevisualizacion"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:background="#E2E8F0"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Botón Enviar -->
+        <Button
+            android:id="@+id/btnEnviarReporte"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="⚠️ REGISTRAR REPORTE OFICIAL"
+            android:backgroundTint="#CBD5E1"
+            android:textColor="#64748B"
+            android:enabled="false"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
