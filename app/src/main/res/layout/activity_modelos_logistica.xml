@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9FAFB"
+    android:padding="16dp"
+    android:id="@+id/main">
+
+    <!-- Título de la Sección -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fase 3: Logística"
+        android:textColor="#D15CE3"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gestión de Voluntariado"
+        android:textColor="#1F2937"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Pestañas de Navegación -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
+        android:padding="4dp"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnTabRegistro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Registro"
+            android:textSize="10sp"
+            android:backgroundTint="#D15CE3"
+            android:textColor="#FFFFFF"/>
+
+        <Button
+            android:id="@+id/btnTabAcceso"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Acceso"
+            android:textSize="10sp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#6B7280"/>
+
+        <Button
+            android:id="@+id/btnTabDespacho"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Despacho"
+            android:textSize="10sp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#6B7280"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ================= VISTA 1: REGISTRO ================= -->
+            <LinearLayout
+                android:id="@+id/vistaRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="16dp"
+                android:elevation="2dp">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Área de Especialidad" android:textStyle="bold" android:textColor="#D15CE3"/>
+
+                <Spinner android:id="@+id/spinnerCategoria" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"/>
+                <Spinner android:id="@+id/spinnerRama" android:layout_width="match_parent" android:layout_height="48dp" android:layout_marginTop="8dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Datos Personales" android:textStyle="bold" android:textColor="#D15CE3" android:layout_marginTop="16dp"/>
+
+                <EditText android:id="@+id/etNombre" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nombre Completo" android:inputType="textPersonName"/>
+                <EditText android:id="@+id/etEmailRegistro" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Correo Electrónico" android:inputType="textEmailAddress"/>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+                    <EditText android:layout_width="60dp" android:layout_height="wrap_content" android:text="0412" android:enabled="false"/>
+                    <EditText android:id="@+id/etTelefono" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Teléfono (7 dígitos)" android:inputType="phone" android:maxLength="7"/>
+                </LinearLayout>
+
+                <Button android:id="@+id/btnCompletarRegistro" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Completar Registro" android:backgroundTint="#059669" android:textColor="#FFFFFF" android:layout_marginTop="16dp"/>
+            </LinearLayout>
+
+            <!-- ================= VISTA 2: ACCESO ================= -->
+            <LinearLayout
+                android:id="@+id/vistaAcceso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:padding="16dp"
+                android:elevation="2dp"
+                android:visibility="gone">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Acceso para Voluntarios" android:textStyle="bold" android:textSize="16sp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ingrese su correo electrónico registrado." android:textSize="12sp" android:textColor="#6B7280"/>
+
+                <EditText android:id="@+id/etEmailAcceso" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="tucorreo@email.com" android:inputType="textEmailAddress" android:layout_marginTop="8dp"/>
+                <Button android:id="@+id/btnIngresar" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Ingresar al Panel" android:backgroundTint="#D97706" android:textColor="#FFFFFF" android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <!-- ================= VISTA 3: DESPACHO (LISTAS DINÁMICAS) ================= -->
+            <LinearLayout
+                android:id="@+id/vistaDespacho"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Estadísticas -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="16dp">
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:background="#FFFFFF" android:padding="12dp" android:layout_marginEnd="4dp" android:elevation="2dp" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DISPONIBLES" android:textSize="10sp" android:textStyle="bold"/>
+                        <TextView android:id="@+id/tvDisponibles" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="20sp" android:textColor="#059669" android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:background="#FFFFFF" android:padding="12dp" android:layout_marginStart="4dp" android:elevation="2dp" android:gravity="center">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EN OPERACIÓN" android:textSize="10sp" android:textStyle="bold"/>
+                        <TextView android:id="@+id/tvEnOperacion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="20sp" android:textColor="#D97706" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Aquí se inyectarán las tarjetas de voluntarios vía código (Reemplaza el map de React) -->
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Directorio Operativo" android:textStyle="bold" android:textColor="#6B7280"/>
+                <LinearLayout android:id="@+id/contenedorVoluntarios" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

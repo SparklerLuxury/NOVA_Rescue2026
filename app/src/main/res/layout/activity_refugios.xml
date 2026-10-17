@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9FAFB">
+
+    <!-- Panel Superior Morado NOVARescue -->
+    <LinearLayout
+        android:id="@+id/headerRefugios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#D15CE3"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZONAS SEGURAS"
+            android:textColor="#FDF4FF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refugios y Centros de Salud"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Encuentra el punto de apoyo más cercano a tu ubicación."
+            android:textColor="#F5D0FE"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Lista de Refugios -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRefugios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headerRefugios"
+        android:clipToPadding="false"
+        android:padding="12dp" />
+
+</RelativeLayout>
