@@ -9,12 +9,31 @@ import com.google.firebase.firestore.Query
 import org.json.JSONArray
 import org.json.JSONObject
 
+/**
+ * Repositorio singleton para la administración de reportes de emergencia.
+ *
+ * Implementa una estrategia de datos híbrida:
+ * 1. Memoria rápida para respuesta inmediata en la UI.
+ * 2. Persistencia en disco mediante [android.content.SharedPreferences] para soporte offline.
+ * 3. Sincronización remota en tiempo real mediante [FirebaseFirestore].
+ */
 object ReportesRepository {
 
+    // =========================================================================
+    // PROPIEDADES PRIVADAS
+    // =========================================================================
     private var db: FirebaseFirestore? = null
     private val _reportes = mutableListOf<Map<String, Any>>()
     private var appContext: Context? = null
 
+    // =========================================================================
+    // INICIALIZACIÓN
+    // =========================================================================
+
+    /**
+     * Inicializa la configuración de persistencia local y la conexión con Firebase Firestore.
+     * @param context Contexto de la aplicación.
+     */
     fun inicializar(context: Context) {
         appContext = context.applicationContext
         cargarDeSharedPreferences(context.applicationContext)
@@ -39,21 +58,36 @@ object ReportesRepository {
         }
     }
 
+    // =========================================================================
+    // MÉTODOS PÚBLICOS DE ACCESO A DATOS
+    // =========================================================================
+
+    /**
+     * Retorna la lista actual de reportes almacenada en memoria.
+     */
     fun obtenerReportes(): List<Map<String, Any>> {
         return _reportes
     }
 
+    /**
+     * Agrega un nuevo reporte localmente y procede a subirlo a Firebase Firestore.
+     *
+     * @param reporteData Mapa con los atributos del reporte.
+     * @param onSuccess Callback ejecutado al completar con éxito.
+     * @param onFailure Callback ejecutado en caso de error.
+     */
     fun agregarReporte(
         reporteData: Map<String, Any>,
         onSuccess: () -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        // Guardar localmente en memoria
+        // 1. Guardar en la lista de memoria
         _reportes.add(0, reporteData)
 
-        // Persistir en disco (SharedPreferences) para sobrevivir al reinicio de la app
+        // 2. Persistir localmente en SharedPreferences
         appContext?.let { guardarEnSharedPreferences(it) }
 
+        // 3. Intentar sincronización con Firebase Firestore
         val firestore = db
         if (firestore != null) {
             firestore.collection("reportes_emergencia")
@@ -70,6 +104,11 @@ object ReportesRepository {
         }
     }
 
+    /**
+     * Establece un oyente (listener) en tiempo real para escuchar cambios en la colección de Firestore.
+     *
+     * @param onActualizacion Callback invocado con la lista de reportes actualizada.
+     */
     fun escucharReportes(onActualizacion: (List<Map<String, Any>>) -> Unit) {
         val firestore = db
         if (firestore != null) {
@@ -96,8 +135,13 @@ object ReportesRepository {
         }
     }
 
-    // --- Persistencia en Disco Local (SharedPreferences) ---
+    // =========================================================================
+    // PERSISTENCIA EN ALMACENAMIENTO LOCAL (SharedPreferences)
+    // =========================================================================
 
+    /**
+     * Serializa la lista de reportes a JSON y la guarda en SharedPreferences.
+     */
     private fun guardarEnSharedPreferences(context: Context) {
         try {
             val jsonArray = JSONArray()
@@ -115,6 +159,9 @@ object ReportesRepository {
         }
     }
 
+    /**
+     * Carga y deserializa los reportes cacheados desde SharedPreferences si existen.
+     */
     private fun cargarDeSharedPreferences(context: Context) {
         try {
             val prefs = context.getSharedPreferences("novarescue_prefs", Context.MODE_PRIVATE)
