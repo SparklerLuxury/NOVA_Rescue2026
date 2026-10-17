@@ -12,33 +12,40 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/*
+ * Esta es la pantalla principal de la aplicación NOVARescue.
+ * En un RecyclerView se muestran los registros de los reportes de emergencias.
+ */
 class MainActivity : AppCompatActivity() {
 
+    // REFERENCIAS A COMPONENTES Y ADAPTADOR
     private lateinit var rvReportes: RecyclerView
     private lateinit var adapter: ReporteAdapter
 
+
+    // CICLO DE VIDA
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 1. Inicializar repositorio
+        // 1. Inicializar el repositorio centralizado
         ReportesRepository.inicializar(applicationContext)
 
-        // 2. Configurar la Lista (RecyclerView)
+        // 2. Configurar la lista RecyclerView y su adaptador
         rvReportes = findViewById(R.id.rvReportes)
         rvReportes.layoutManager = LinearLayoutManager(this)
 
         adapter = ReporteAdapter(ReportesRepository.obtenerReportes())
         rvReportes.adapter = adapter
 
-        // Botón Flotante para Nuevo Reporte
+        // 3. Configurar el Botón Flotante para ir a la creación de un nuevo reporte
         val fabNuevoReporte = findViewById<FloatingActionButton>(R.id.fabNuevoReporte)
         fabNuevoReporte?.setOnClickListener {
             val intent = Intent(this, CrearReportes::class.java)
             startActivity(intent)
         }
 
-        // 3. Escuchar cambios de reportes
+        // 4. Suscribirse a cambios en tiempo real del repositorio
         ReportesRepository.escucharReportes { reportes ->
             adapter.actualizarDatos(reportes)
         }
@@ -46,18 +53,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Actualizar vista al regresar
+        // Esto sincroniza los datos que ya hayan sido reportados anteriormente para tener la persistencia
         adapter.actualizarDatos(ReportesRepository.obtenerReportes())
     }
 
-    // --- Adaptador de la Lista ---
+
+    // ADAPTADOR DEL RECYCLERVIEW
+
+
+    //Adaptador personalizado para gestionar la presentación de las tarjetas de reportes.
     inner class ReporteAdapter(private var reportes: List<Map<String, Any>>) :
         RecyclerView.Adapter<ReporteAdapter.ViewHolder>() {
 
+        //Reemplaza la lista actual de reportes y notifica al RecyclerView para redibujar las tarjetas.
         fun actualizarDatos(nuevosReportes: List<Map<String, Any>>) {
             this.reportes = nuevosReportes
             notifyDataSetChanged()
         }
+
+
+        //Contenedor de referencias para las vistas individuales de cada tarjeta de reporte.
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val tvTipo: TextView = view.findViewById(R.id.tvTipo)
@@ -74,21 +89,47 @@ class MainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val reporte = reportes[position]
 
-            val prioridadText = reporte["prioridad_asignada"]?.toString() ?: "N/A"
-            holder.tvTipo.text = reporte["tipo_evento"]?.toString() ?: "Desconocido"
-            holder.tvPrioridad.text = prioridadText
-            holder.tvDescripcion.text = reporte["descripcion"]?.toString() ?: ""
-            holder.tvRecursos.text = reporte["recursos_sugeridos"]?.toString() ?: ""
+            // Extraer y formatear el nivel de gravedad / prioridad
+            val rawGravedad = (reporte["gravedad"] ?: reporte["prioridad_asignada"])?.toString() ?: "N/A"
+            val gravedadTexto = when (rawGravedad.lowercase()) {
+                "bajo", "baja" -> "Bajo"
+                "medio", "media" -> "Medio"
+                "alto", "alta" -> "Alto"
+                else -> rawGravedad
+            }
 
-            if (prioridadText.contains("ALTA")) {
-                holder.tvPrioridad.setTextColor(Color.parseColor("#D32F2F"))
-                holder.tvPrioridad.setBackgroundColor(Color.parseColor("#FFEBEE"))
-            } else if (prioridadText.contains("MEDIA")) {
-                holder.tvPrioridad.setTextColor(Color.parseColor("#F57F17"))
-                holder.tvPrioridad.setBackgroundColor(Color.parseColor("#FFFDE7"))
+            // Asignar textos a los componentes de la vista
+            holder.tvTipo.text = reporte["tipo_evento"]?.toString() ?: "Desconocido"
+            holder.tvPrioridad.text = gravedadTexto
+            holder.tvDescripcion.text = reporte["descripcion"]?.toString() ?: ""
+
+            // Mostrar u ocultar recursos sugeridos según exista información
+            val recursos = reporte["recursos_sugeridos"]?.toString()
+            if (recursos.isNullOrBlank()) {
+                holder.tvRecursos.visibility = View.GONE
             } else {
-                holder.tvPrioridad.setTextColor(Color.parseColor("#388E3C"))
-                holder.tvPrioridad.setBackgroundColor(Color.parseColor("#E8F5E9"))
+                holder.tvRecursos.visibility = View.VISIBLE
+                holder.tvRecursos.text = recursos
+            }
+
+            // Aplicar estilos y colores distintivos según la gravedad del reporte
+            when (gravedadTexto) {
+                "Alto" -> {
+                    holder.tvPrioridad.setTextColor(Color.parseColor("#D32F2F"))
+                    holder.tvPrioridad.setBackgroundColor(Color.parseColor("#FFEBEE"))
+                }
+                "Medio" -> {
+                    holder.tvPrioridad.setTextColor(Color.parseColor("#F57F17"))
+                    holder.tvPrioridad.setBackgroundColor(Color.parseColor("#FFFDE7"))
+                }
+                "Bajo" -> {
+                    holder.tvPrioridad.setTextColor(Color.parseColor("#388E3C"))
+                    holder.tvPrioridad.setBackgroundColor(Color.parseColor("#E8F5E9"))
+                }
+                else -> {
+                    holder.tvPrioridad.setTextColor(Color.parseColor("#757575"))
+                    holder.tvPrioridad.setBackgroundColor(Color.parseColor("#EEEEEE"))
+                }
             }
         }
 
