@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         val fabNuevoReporte = findViewById<FloatingActionButton>(R.id.fabNuevoReporte)
         fabNuevoReporte?.setOnClickListener {
             val intent = Intent(this, CrearReportes::class.java)
+            startActivity(intent)
+        }
+        val Refugios = findViewById<Button>(R.id.RefugioButton)
+        Refugios?.setOnClickListener {
+            val intent = Intent(this, RefugiosActivity::class.java)
             startActivity(intent)
         }
 
